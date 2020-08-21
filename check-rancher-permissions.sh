@@ -12,6 +12,7 @@ do
     echo "Examining project $PROJECT_NAME"
 
     # query rancher for members of a project
+    # no way to format output from CLI :-(
     rancher project list-members --project-id $PROJECT_ID | tail -n +2 | sed -E 's/(\s\s+)/,/g' | while read member
     do 
         PROJECT_MEMBER_ID=$(echo $member | awk -F "," '{print $1}')
