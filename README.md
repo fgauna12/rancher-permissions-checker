@@ -1,3 +1,4 @@
+First, login with the rancher cli.
 
 ``` sh
 
@@ -5,12 +6,19 @@ $ ./rancher login https://<SERVER_URL> --token <BEARER_TOKEN>
 
 ```
 
+Then, ensure you can use the rancher cli.
 
 ``` sh
 $ rancher project list-members
 
 BINDING-ID                      USER            ROLE            CREATED
 p-xxxx:creator-project-owner   Default Admin   project-owner   21 Aug 2020 14:57:01 UTC
+```
+
+
+``` sh
+$ chmod +x ./check-rancher-permissions.sh
+$ ./check-rancher-permissions.sh
 ```
 
 ## Example Output
