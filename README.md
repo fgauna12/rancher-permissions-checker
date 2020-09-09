@@ -1,5 +1,9 @@
 
+``` sh
 
+$ ./rancher login https://<SERVER_URL> --token <BEARER_TOKEN>
+
+```
 
 
 ``` sh
