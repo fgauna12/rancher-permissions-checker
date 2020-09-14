@@ -24,7 +24,6 @@ do
     echo "Examining project $PROJECT_NAME"
 
     # query rancher for members of a project
-    # no way to format output from CLI :-(
     curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/projectroletemplatebindings?projectId=$PROJECT_ID" | jq -r ".data[] | [.userId, .roleTemplateId] | @csv" | tr -d '"' | while read -r member
     do 
         PROJECT_MEMBER_ID=$(echo "${member}" | awk -F "," '{print $1}')
