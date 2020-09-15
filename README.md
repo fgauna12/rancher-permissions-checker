@@ -1,6 +1,6 @@
 ``` sh
 $ chmod +x ./check-rancher-permissions.sh
-$ ./check-rancher-permissions.sh "[rancher url]" "[api key]"
+$ source ./check-rancher-permissions.sh "[rancher url]" "[api key]"
 ```
 
 ## Example Output
