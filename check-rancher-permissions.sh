@@ -6,16 +6,6 @@ echo "PROJECT, BINDING-ID, USER, ROLE" > $CSV_FILE_NAME
 RANCHER_URL=$(echo "$1")
 ACCESS_TOKEN=$(echo "$2")
 
-declare -A USERS
-
-while read -r user
-do
-    # create a hash table of user ids and user names
-    USER_ID=$(echo "${user}" | awk -F "," '{print $1}')
-    USER_NAME=$(echo "${user}" | awk -F "," '{print $2}')
-    USERS[$USER_ID]=$(echo "${USER_NAME}")
-done <<<$(curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/users" | jq -r '.data[]| [.id,.name] | @csv' | tr -d '"')
-
 # query rancher for projects
 curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/projects" | jq -r '.data[] | [.id,.name] | @csv' | tr -d '"' | while read -r project
 do
@@ -28,7 +18,8 @@ do
     do 
         PROJECT_MEMBER_ID=$(echo "${member}" | awk -F "," '{print $1}')
         PROJECT_ROLE=$(echo "${member}" | awk -F "," '{print $2}')
-        PROJECT_USER=$(echo "${USERS[$PROJECT_MEMBER_ID]}")
+        
+        PROJECT_USER=$(curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/users/$PROJECT_MEMBER_ID" | jq -r ".username")
         if [ -z "$PROJECT_USER" ]; then 
             PROJECT_USER='(unknown)'
         fi        
