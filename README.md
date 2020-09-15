@@ -2,6 +2,7 @@
 $ chmod +x ./check-rancher-permissions.sh
 $ source ./check-rancher-permissions.sh "[rancher url]" "[api key]"
 ```
+:warning: **No trailing slash** on the rancher url.
 
 ## Example Output
 
@@ -23,13 +24,4 @@ accessible-project, p-xxxx:prtb-cj9hw, Dummy User 1, project-member
 invisible-project, p-xxxx:creator-project-owner, Default Admin, project-owner
 ```
 
-## Known Issues
-
-Right now it only gets the results for all the projects in a cluster.
-
-To get around it, generate a CSV file for each cluster.
-
-1. `rancher context switch`
-2. Select a project on a different cluster
-3. Re-run script and should output results for different cluster
 
