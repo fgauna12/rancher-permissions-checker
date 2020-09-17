@@ -49,10 +49,20 @@ function audit-clusters {
         CLUSTER_ID=$(echo "${cluster}" | awk -F "," '{print $1}')
         CLUSTER_NAME=$(echo "${cluster}" | awk -F "," '{print $2}')
         CLUSTER_MEMBERS_LINK=$(echo "${cluster}" | awk -F "," '{print $3}')
+        echo "Examining Cluster:$CLUSTER_ID"        
 
-        echo "$CLUSTER_ID $CLUSTER_NAME $CLUSTER_MEMBERS_LINK"
+        curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$CLUSTER_MEMBERS_LINK" | jq -r ".data[] | [.userId, .roleTemplateId] | @csv" | tr -d '"' | while read -r member
+        do
+            CLUSTER_MEMBER_ID=$(echo "${member}" | awk -F "," '{print $1}')
+            CLUSTER_ROLE=$(echo "${member}" | awk -F "," '{print $2}')
 
-        # echo "$CLUSTER_NAME, $PROJECT_MEMBER_ID, $PROJECT_USER, $CLUSTER_ROLE" >> $CSV_FILE_NAME
+            CLUSTER_USER=$(curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/users/$CLUSTER_MEMBER_ID" | jq -r ".username")
+
+            echo "$CLUSTER_NAME, $CLUSTER_MEMBER_ID, $CLUSTER_USER, $CLUSTER_ROLE" >> $CSV_FILE_NAME
+
+            sleep .5
+        done
+        
     done    
 
     cat $CSV_FILE_NAME
@@ -61,7 +71,7 @@ function audit-clusters {
 echo "================="
 echo "Auditing Projects"
 echo "================="
-#audit-projects 
+audit-projects 
 echo "================="
 echo "Auditing Clusters"
 echo "================="
