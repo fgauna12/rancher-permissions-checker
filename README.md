@@ -6,7 +6,7 @@ $ source ./check-rancher-permissions.sh "[rancher url]" "[api key]"
 
 ## Example Output
 
-Example output from the script
+Example output from the script (stored in `project-users.csv`)
 
 ```
 CLUSTER, PROJECT, BINDING-ID, USER, ROLE
@@ -21,4 +21,11 @@ local, riksy project 1, user-bleh, admin, project-owner
 local, riksy project 1, u-p4xt5, dummyuser1, project-owner
 ```
 
+Example output from the script (stored in `cluster-users.csv`)
+```
+CLUSTER, BINDING-ID, USER, ROLE
+cluster1, u-id, person1, cluster-owner
+cluster2, u-id2, person2, cluster-owner
+cluster3, u-id3, person3, cluster-member
+```
 
