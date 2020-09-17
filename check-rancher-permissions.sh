@@ -28,6 +28,8 @@ do
         fi        
 
         echo "$CLUSTER_NAME, $PROJECT_NAME, $PROJECT_MEMBER_ID, $PROJECT_USER, $PROJECT_ROLE" >> $CSV_FILE_NAME
+
+        sleep .5
     done 
 done
 
