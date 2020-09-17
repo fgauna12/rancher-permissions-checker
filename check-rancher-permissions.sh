@@ -6,7 +6,7 @@ ACCESS_TOKEN=$(echo "$2")
 function audit-projects {
     # Create CSV File
     CSV_FILE_NAME="project-users.csv"
-    echo "CLUSTER, PROJECT, BINDING-ID, USER, ROLE" > $CSV_FILE_NAME
+    echo "CLUSTER, PROJECT, USER-ID, USER, ROLE" > $CSV_FILE_NAME
     
     # query rancher for projects
     curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/projects" | jq -r '.data[] | [.id,.name,.clusterId] | @csv' | tr -d '"' | while read -r project
@@ -41,7 +41,7 @@ function audit-projects {
 function audit-clusters {
     # Create CSV File
     CSV_FILE_NAME="cluster-users.csv"
-    echo "CLUSTER, BINDING-ID, USER, ROLE" > $CSV_FILE_NAME
+    echo "CLUSTER, USER-ID, USER, ROLE" > $CSV_FILE_NAME
     
     # query rancher for projects
     curl -skH "Authorization: Bearer $ACCESS_TOKEN" "$RANCHER_URL/clusters" | jq -r ".data[] | [.id, .name, .links.clusterRoleTemplateBindings] | @csv" | tr -d '"' | while read -r cluster
